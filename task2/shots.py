@@ -22,10 +22,12 @@ def main():
     shots = int(input("колличество выстрелов: "))
     radius = int(input("радиус (или 0): "))
     area = Area(radius) if radius > 0 else Area()
+    X, Y = [], []
     for i in range(shots):
         M = Dot(area.left, area.right)
         logger.info(f'coords x: {M.x}, y: {M.y}, {fp(M.x, M.y, radius)}')
-
+        X.append(M.x)
+        Y.append(M.y)
 
 if __name__ == "__main__":
     main()
