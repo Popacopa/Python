@@ -29,5 +29,12 @@ def main():
         X.append(M.x)
         Y.append(M.y)
 
+    data = {
+        'J': [i for i in range(1, shots + 1)],
+        'X': X,
+        'Y': Y,
+        'P': [fp(x, y, radius) for x, y in zip(X, Y)] 
+    }
+    
 if __name__ == "__main__":
     main()
