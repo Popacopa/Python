@@ -1,6 +1,7 @@
 from math import cos, pi
 from loguru import logger
 import numpy as np
+import pandas as pd
 from modulevariant import fp
 
 class Area():
@@ -15,7 +16,7 @@ class Dot():
         self.x = np.random.uniform(left[0], right[0])
         self.y = np.random.uniform(left[1], right[1])
 
-def main():
+def main() -> None:
 
     handler_id = logger.add("file.log") 
 
@@ -35,6 +36,6 @@ def main():
         'Y': Y,
         'P': [fp(x, y, radius) for x, y in zip(X, Y)] 
     }
-    
+
 if __name__ == "__main__":
     main()
