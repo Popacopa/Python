@@ -37,5 +37,10 @@ def main() -> None:
         'P': [fp(x, y, radius) for x, y in zip(X, Y)] 
     }
 
+    dataframe = pd.DataFrame(data)
+    print(dataframe)
+
+    logger.remove(handler_id)
+    
 if __name__ == "__main__":
     main()
