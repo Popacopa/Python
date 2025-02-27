@@ -38,7 +38,8 @@ def main() -> None:
     }
 
     dataframe = pd.DataFrame(data)
-    print(dataframe)
+    dataframe.to_csv('shots.csv', index=False)
+    dataframe.to_excel('shots.xlsx', index=False)
 
     logger.remove(handler_id)
     
