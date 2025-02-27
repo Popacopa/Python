@@ -1,4 +1,4 @@
-from modulvariant import ModuleVariant
+from modulevariant import ModuleVariant
 
 class Main():
     def main():
