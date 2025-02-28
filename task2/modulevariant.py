@@ -1,6 +1,6 @@
 from math import cos, pi
 
-def fp(x: float, y: float, R = 4) -> bool:
+def fp(x: float, y: float, R = 4) -> bool:                      #рассчет попадания
         radius = x**2 + y**2 <= R**2
         a, b = False, False
         l = R * cos(pi / 4)
@@ -9,9 +9,9 @@ def fp(x: float, y: float, R = 4) -> bool:
         return b or a
 
 
-def Pteor(area, radius = 4) -> float:
+def Pteor(area, radius = 4) -> float:                          #рассчет теоретической вероятности
         X = area.right[0] - area.left[0]
         Y = area.right[1] - area.left[1]
         AreaS = (pi * radius ** 2) / 4
         Pt = AreaS  + (radius * cos(pi / 4)) ** 2
-        return round(Pt / (X * Y) * 100, 1)
+        return round(Pt / (X * Y) * 100, 1)                  #возвращает значение в процентах
