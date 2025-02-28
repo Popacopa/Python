@@ -1,11 +1,11 @@
-from math import cos, pi
+from math import cos, pi as PI
 import numpy as np
 import pandas as pd
 from modulevariant import fp, Pteor
 
 class Area():                   #класс объекта области обстрела
     def __init__(self, R = 4):
-        l = R * cos(pi / 4)
+        l = R * cos(PI / 4)
         delta = (1/12)*R
         self.left = (-R-delta, -R-delta)
         self.right = (l + delta, l + delta)
