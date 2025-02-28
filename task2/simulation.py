@@ -1,8 +1,7 @@
 from math import cos, pi
-from loguru import logger
 import numpy as np
 import pandas as pd
-from modulevariant import fp
+from modulevariant import fp, Pteor
 
 class Area():                   #класс объекта области обстрела
     def __init__(self, R = 4):
@@ -16,17 +15,15 @@ class Dot():                    #класс точки попадания (ко�
         self.x = np.random.uniform(left[0], right[0])
         self.y = np.random.uniform(left[1], right[1])
 
-def main() -> None:             #точка входа
+def simulate(shots = 1000, radius = 4) -> tuple:           
 
-    handler_id = logger.add("file.log")     #создаем объект логгера
-
-    shots = int(input("колличество выстрелов: "))
-    radius = int(input("радиус (или 0): "))
+    hit = 0
     area = Area(radius) if radius > 0 else Area()
     X, Y = [], []                          #списки координат
     for i in range(shots):  
         M = Dot(area.left, area.right)     #создаем точку
-        logger.info(f'coords x: {M.x}, y: {M.y}, {fp(M.x, M.y, radius)}') #логи
+        if fp(M.x, M.y, radius): hit += 1      #подсчет колличества попаданий
+
         X.append(M.x)                      #добавляем координаты в массивы
         Y.append(M.y)                      #добавляем координаты в массивы
 
@@ -40,12 +37,19 @@ def main() -> None:             #точка входа
     dataframe = pd.DataFrame(data)         #инициализация dataframe pandas
     dataframe.to_csv('shots.csv', index=False)          #запись в csv
     dataframe.to_excel('shots.xlsx', index=False)       #запись в excel
+    
+    return round(hit / shots * 100, 1), Pteor(area, radius) #возвращаем фактическую и теоретическую вероятность
 
-    with open('data.csv', 'r') as file:                  #чтение из csv
+
+
+if __name__ == "__main__":                 #точка входа
+
+    shots = int(input("колличество выстрелов: "))        #ввод значений
+    radius = int(input("радиус (или 0): "))              #ввод значений
+
+    simulate(shots, radius)                              #запуск симуляции 
+
+    with open('shots.csv', 'r') as file:                  #чтение из csv
         for i in file: print(i)
 
-    logger.remove(handler_id)
-    
-if __name__ == "__main__":
-    main()
 

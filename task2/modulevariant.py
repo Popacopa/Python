@@ -14,4 +14,4 @@ def Pteor(area, radius = 4) -> float:
         Y = area.right[1] - area.left[1]
         AreaS = (pi * radius ** 2) / 4
         Pt = AreaS  + (radius * cos(pi / 4)) ** 2
-        return round(Pt / (X * Y) *100, 1)
+        return round(Pt / (X * Y) * 100, 1)

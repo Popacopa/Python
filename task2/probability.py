@@ -1,5 +1,4 @@
-def sector_area(radius, angle):
-    return (angle / 360) * 3.14 * radius ** 2
+from simulation import *
 
 if __name__ == "__main__":
-    pass
+    print(simulate(1000, 4))
