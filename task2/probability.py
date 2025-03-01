@@ -1,7 +1,7 @@
 from simulation import *
 from matplotlib import pyplot as plt
 
-CICLES = 30            #колличество итераций
+CICLES = 1000            #колличество итераций
 
 if __name__ == "__main__":
     t = [i for i in range(CICLES)]  #основная ось (временная)
@@ -18,5 +18,6 @@ if __name__ == "__main__":
     plt.plot(t, Pt, color='green')      #инициализация и настройка полотна
     plt.scatter(t, Pst, c = 'red')
     plt.grid(True)
-    plt.tight_layout()                  #показать график
+    plt.tight_layout()
+    plt.savefig("my_plot.png", dpi=300)                  #показать график
     plt.show()
