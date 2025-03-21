@@ -1,7 +1,10 @@
 from math import cos, pi as PI
 import numpy as np
 import pandas as pd
+import time
 from modulevariant import fp, Pteor
+
+np.random.seed(int(time.time()))
 
 class Area():                   #класс объекта области обстрела
     def __init__(self, R = 4):
@@ -15,7 +18,7 @@ class Dot():                    #класс точки попадания (ко�
         self.x = np.random.uniform(left[0], right[0])
         self.y = np.random.uniform(left[1], right[1])
 
-def simulate(shots = 1000, radius = 4) -> tuple:           
+def simulate(shots=1000, radius=10) -> tuple:           
 
     hit = 0
     area = Area(radius) if radius > 0 else Area()
@@ -35,8 +38,8 @@ def simulate(shots = 1000, radius = 4) -> tuple:
     }
 
     dataframe = pd.DataFrame(data)         #инициализация dataframe pandas
-    dataframe.to_csv('shots.csv', index=False)          #запись в csv
-    dataframe.to_excel('shots.xlsx', index=False)       #запись в excel
+    dataframe.to_csv('./shots.csv', index=False)          #запись в csv
+    dataframe.to_excel('./shots.xlsx', index=False)       #запись в excel
     
     return round(hit / shots * 100, 1), Pteor(area, radius) #возвращаем фактическую и теоретическую вероятность
 
