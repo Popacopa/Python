@@ -4,7 +4,16 @@ from scipy.optimize import golden
 from typing import Tuple
 import matplotlib.pyplot as plt
 
-class Reservuar(ABC):
+
+
+class Subscriptable(type):
+    def __getitem__(s, item):
+        return s.items[item]
+    
+
+class Reservuar(metaclass=Subscriptable):
+
+    items = []
 
     MATERIALS = {
         "Сталь_XBF": {"плотность": 7850, "цена": 500},
@@ -30,6 +39,8 @@ class Reservuar(ABC):
         self.__hh = 0
         self.__ff = 0
 
+        self.items.append(self)
+
     def set_hh(self, hh):
         self.__hh = hh
 
@@ -54,11 +65,11 @@ class Reservuar(ABC):
     @property
     def koeffC(self) -> float:
         return self.__koeffC
-    
+
     @abstractmethod
     def __str__(self): pass
-        
-    @abstractmethod
+
+    @abstractmethod   
     def optimization(self, h): pass
 
 
@@ -87,25 +98,14 @@ class ReservuarSquareTringe(Reservuar):
     
     def __FV(self, h) -> float:
         radius = self.__FiR(self.emkost, self.koeffC, h)
-        #if radius <= 0: raise ValueError("Радиус(высота) не может быть равен нулю")
         surface_area = self.__surface_area(radius, self.koeffC, h)
         return surface_area
     
-    def optimization(self) -> Tuple[float, float, float]:
+    def optimization(self, plot=False) -> Tuple[float, float, float]:
 
-        def plotter(self) -> None:
-            xcoords = []
-            ycoords = []
-            fig, ax = plt.subplots()
-            for i in self.__generator():
-                xcoords.append(i[0])
-                ycoords.append(i[1])
-            ax.plot(xcoords, ycoords)
-            ax.plot(xcoords, [min(ycoords) for _ in ycoords], color='red')
-            ax.plot([xcoords[ycoords.index(min(ycoords))] for _ in xcoords], ycoords, color='red')
-            plt.show()
+        if plot:
+            self.plotter(plot=True)
 
-        plotter(self)
         try:
             res = golden(self.__FV, brack=(0.01, 1000), full_output=True)
         except ValueError:
@@ -124,16 +124,17 @@ class ReservuarSquareTringe(Reservuar):
             h += 0.5
             yield (h, round(f, 2))
 
-    def plotter(self) -> None:
+    def plotter(self, plot=False) -> Tuple[float, float]:
         xcoords = []
         ycoords = []
-        fig, ax = plt.subplots()
         for i in self.__generator():
             xcoords.append(i[0])
             ycoords.append(i[1])
-        ax.plot(xcoords, ycoords)
-        ax.plot(xcoords, [min(ycoords) for _ in ycoords], color='red')
-        ax.plot([xcoords[ycoords.index(min(ycoords))] for _ in xcoords], ycoords, color='red')
-        plt.show()
-
+        if plot:
+            fig, ax = plt.subplots()
+            ax.plot(xcoords, ycoords)
+            ax.plot(xcoords, [min(ycoords) for _ in ycoords], color='red')
+            ax.plot([xcoords[ycoords.index(min(ycoords))] for _ in xcoords], ycoords, color='red')
+            plt.show()
+        return xcoords, ycoords
         
