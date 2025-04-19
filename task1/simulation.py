@@ -6,14 +6,14 @@ from modulevariant import fp, Pteor
 
 np.random.seed(int(time.time()))
 
-class Area():                   #класс объекта области обстрела
+class surface_area():                   #класс объекта области обстрела
     def __init__(self, R = 4):
         l = R * cos(PI / 4)
         delta = (1/12)*R
         self.left = (-R-delta, -R-delta)
         self.right = (l + delta, l + delta)
 
-class Dot():                    #класс точки попадания (координаты случайны в пределах Area)
+class Dot():                    #класс точки попадания (координаты случайны в пределах surface_area)
     def __init__(self, left: tuple, right: tuple):
         self.x = np.random.uniform(left[0], right[0])
         self.y = np.random.uniform(left[1], right[1])
@@ -21,10 +21,10 @@ class Dot():                    #класс точки попадания (ко�
 def simulate(shots=1000, radius=10) -> tuple:           
 
     hit = 0
-    area = Area(radius) if radius > 0 else Area()
+    surface_area = surface_area(radius) if radius > 0 else surface_area()
     X, Y = [], []                          #списки координат
     for i in range(shots):  
-        M = Dot(area.left, area.right)     #создаем точку
+        M = Dot(surface_area.left, surface_area.right)     #создаем точку
         if fp(M.x, M.y, radius): hit += 1      #подсчет колличества попаданий
 
         X.append(M.x)                      #добавляем координаты в массивы
@@ -41,7 +41,7 @@ def simulate(shots=1000, radius=10) -> tuple:
     dataframe.to_csv('./shots.csv', index=False)          #запись в csv
     dataframe.to_excel('./shots.xlsx', index=False)       #запись в excel
     
-    return round(hit / shots * 100, 1), Pteor(area, radius) #возвращаем фактическую и теоретическую вероятность
+    return round(hit / shots * 100, 1), Pteor(surface_area, radius) #возвращаем фактическую и теоретическую вероятность
 
 
 
