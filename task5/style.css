@@ -1,0 +1,12 @@
+Qwidget {
+    background-color: #1e1e1e;
+    color: #d3d3d3;
+    font-size: 14vmax;
+}
+
+QlineEdit {
+    background-color: #282828;
+    border-radius: 10%;
+    color: #d3d3d3;
+    font-size: 14vmax;
+}
