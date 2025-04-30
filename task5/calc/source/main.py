@@ -29,7 +29,8 @@ class MyApp(QMainWindow):
         self.ui.rasdel.clicked.connect(lambda: self.add_digits('/'))
         self.ui.res.clicked.connect(lambda: self.get_result())
         self.ui.umnogit.clicked.connect(lambda: self.add_digits('*'))
-        
+        self.ui.dot.clicked.connect(lambda: self.add_digits('.'))
+
     def clear_line(self) -> None:
         self.ui.lineEdit.setText('0')
         self.ui.label.setText('0')
@@ -42,8 +43,12 @@ class MyApp(QMainWindow):
     
     def get_result(self) -> float:
         try:
-            result = eval(self.ui.lineEdit.text())
-        except ZeroDivisionError or SyntaxError:
+            try:
+                result = eval(self.ui.lineEdit.text())
+            except SyntaxError:
+                self.ui.lineEdit.setText('Err')
+                return 0
+        except ZeroDivisionError:
             self.ui.lineEdit.setText('Err')
             return 0
         self.ui.label.setText(self.ui.lineEdit.text())
@@ -52,8 +57,6 @@ class MyApp(QMainWindow):
     
 
 app = QApplication(sys.argv)
-ex2 = MyApp()
-ex2.ui.show()
 ex = MyApp()
 ex.ui.show()
 sys.exit(app.exec())
