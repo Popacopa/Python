@@ -1,5 +1,6 @@
 import sys
 import os
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox
 from PyQt5 import uic 
 
@@ -52,10 +53,11 @@ class Main(QMainWindow):
             messange.exec_()
 
     def __call_dialog(self, opt: str) -> str:
-        dialog = Dialog(opt)
-        dialog.exec_()
-        res = dialog.get_path()
-        return res
+        if opt == "Open":
+            dialog = QtWidgets.QFileDialog.getOpenFileName()[0]
+        if opt == "Save":
+            dialog = QtWidgets.QFileDialog.getSaveFileName()[0]
+        return dialog
         
     def __open(self, opt: str): 
         path = self.__call_dialog(opt)
@@ -67,7 +69,7 @@ class Main(QMainWindow):
             messange.setText('Файл не найден')
             messange.exec_()
 
-
+#79ff90679c8a5f63b5f4c9d4500fefd45027bce5
 
 app = QApplication(sys.argv)
 ex = Main()
