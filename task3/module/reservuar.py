@@ -86,12 +86,12 @@ class ReservuarSquareTringe(Reservuar):
                 f"  R/H/F: {self.parameters} м\n")
     
     def __surface_area(self,R, c, h) -> float:
-        res = (2 * R**2  + R * 1.4 * h * 4) + ((3 * (R * c)**2 * 1.7) / 4 + 3 * h * R * c * 1.7)
+        res = R**2*(2.55 - 2 * c**2) + 6 * R * h + 4 * R * c * 1.4 * h
         return res
     
     def __FiR(self,V, c, h) -> float:
         if h > 0:
-            res = sqrt(V / h * (2 - c**2 / 4))
+            res = sqrt(V / h * (2.55 - 2 * c**2))
         else:
             raise ValueError("Радиус(высота) не может быть равен нулю")
         return res
