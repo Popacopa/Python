@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from math import sqrt
-from scipy.optimize import golden
+from scipy.optimize import minimize
 from typing import Tuple
 import matplotlib.pyplot as plt
 
@@ -75,7 +75,7 @@ class Reservuar(metaclass=Subscriptable):
 
 
 
-class ReservuarSquareTringe(Reservuar): 
+class ReservuarSquareHexagon(Reservuar): 
 
     def __str__(self):
         return (f"Резервуар: {self.__class__.__name__}\n"
@@ -96,7 +96,7 @@ class ReservuarSquareTringe(Reservuar):
             raise ValueError("Радиус(высота) не может быть равен нулю")
         return res
     
-    def __FV(self, h) -> float:
+    def __FF(self, h) -> float:
         radius = self.__FiR(self.emkost, self.koeffC, h)
         surface_area = self.__surface_area(radius, self.koeffC, h)
         return surface_area
@@ -107,20 +107,21 @@ class ReservuarSquareTringe(Reservuar):
             self.plotter(plot=True)
 
         try:
-            res = golden(self.__FV, brack=(0.01, 1000), full_output=True)
+            res = minimize(self.__FF, x0=self.emkost ** (1/3))     
+            #print(res)              ####
         except ValueError:
             raise ValueError("Радиус(высота) не может быть равен нулю")
-        Hopt = round(float(res[0]), 2)
+        Hopt = round(float(res['x']), 2)
         self.set_hh(Hopt)
         Ropt = round(self.__FiR(self.emkost, self.koeffC, self.parameters[1]), 2)
         self.set_rr(Ropt)
-        Fopt = round(float(res[1]), 2)
+        Fopt = round(float(res['fun']), 2)
         self.set_ff(Fopt)
         return Hopt, Ropt, Fopt
 
     def __generator(self, h=1):
         while h < 100:
-            f = self.__FV(h)
+            f = self.__FF(h)
             h += 0.5
             yield (h, round(f, 2))
 

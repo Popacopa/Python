@@ -3,6 +3,7 @@ file.log
 *.xlsx
 *.txt
 *.png
-.venv
-.vscode
 *pycache*
+*.docx
+task5/.*
+.*

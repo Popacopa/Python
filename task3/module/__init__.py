@@ -1,4 +1,4 @@
-from .reservuar import Reservuar, ReservuarSquareTringe
+from .reservuar import Reservuar, ReservuarSquareHexagon
 
 
-__all__ = ["Reservuar", "ReservuarSquareTringe"]
+__all__ = ["Reservuar", "ReservuarSquareHexagon"]
